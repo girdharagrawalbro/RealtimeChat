@@ -1,5 +1,4 @@
 const socket = io('https://realtimechat-ky13.onrender.com');
-// const socket = io('http://localhost:8000');
 
 const form = document.getElementById('send-container')
 const messageInput = document.getElementById('messageInp');
@@ -18,11 +17,15 @@ const append = (message, position) => {
 }
 
 form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const message = messageInput.value;
-    append(`You: ${message}`, 'text-end')
-    socket.emit('send', message);
-    messageInput.value = "";
+    e.preventDefault(); // Prevent the form from reloading the page
+      
+    const message = messageInput.value.trim();
+    if (message) {
+        socket.emit('send', message); // Emit the message to the server
+        append(`You: ${message}`, 'text-end')
+        messageInput.value = ''; // Clear the input field
+    }
+
 })
 
 let data;
@@ -38,6 +41,9 @@ socket.on('user-joined', name => {
 
 socket.on('receive', data => {
     append(`${data.user}: ${data.message}`, 'text-start');
+         
+        messageBox.scrollTop = messageBox.scrollHeight;
+
 });
 
 socket.on('user-left', name => {
