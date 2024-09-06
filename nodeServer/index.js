@@ -1,6 +1,7 @@
 const io = require('socket.io')(8000, {
     cors: {
-        origin: 'https://chatapp-girdhar.netlify.app',  // Allow all origins, or replace with the specific origin you want to allow
+        // origin: 'https://chatapp-girdhar.netlify.app',  // Allow all origins, or replace with the specific origin you want to allow
+        origin: 'http://127.0.0.1:5500/index.html',
         methods: ['GET', 'POST']
     }
 });
@@ -8,7 +9,7 @@ const io = require('socket.io')(8000, {
 const users = {};
 
 io.on('connection', socket => {
-    // Event listener for when a user joins
+    // console.log(socket.id);
     socket.on('user-joined', name => {
         console.log(name)
         users[socket.id] = name;
