@@ -1,4 +1,6 @@
 const socket = io('https://realtimechat-ky13.onrender.com');
+// const socket = io('http://localhost:8000');
+
 const form = document.getElementById('send-container')
 const messageInput = document.getElementById('messageInp');
 const messageContainer = document.querySelector('.messagebox');
@@ -9,7 +11,7 @@ const append = (message, position) => {
     messageElement.innerText = message;
     messageElement.classList.add(position);
     messageContainer.append(messageElement);
-    if(position = 'text-start')
+    if(position === 'text-start')
     {
         audio.play();
     }
@@ -23,7 +25,11 @@ form.addEventListener('submit', (e) => {
     messageInput.value = "";
 })
 
-const data = prompt("Enter your name to join");
+let data;
+do {
+    data = prompt("Enter your name to join");
+} while (!data);
+
 socket.emit('user-joined', data);
 
 socket.on('user-joined', name => {
@@ -35,5 +41,9 @@ socket.on('receive', data => {
 });
 
 socket.on('user-left', name => {
-    append(`${name} left the chat`, 'text-start');
+    if (name) {
+        append(`${name} left the chat`, 'text-start');
+    } else {
+        append(`A user left the chat`, 'text-start');
+    }
 });

@@ -10,6 +10,7 @@ const users = {};
 io.on('connection', socket => {
     // Event listener for when a user joins
     socket.on('user-joined', name => {
+        console.log(name)
         users[socket.id] = name;
         socket.broadcast.emit('user-joined', name);
     });
