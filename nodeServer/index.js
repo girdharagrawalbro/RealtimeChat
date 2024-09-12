@@ -1,7 +1,6 @@
 const io = require('socket.io')(8000, {
     cors: {
-        // origin: 'https://chatapp-girdhar.netlify.app',  // Allow all origins, or replace with the specific origin you want to allow
-        origin: 'http://127.0.0.1:5500/index.html',
+        origin: 'https://chatapp-girdhar.netlify.app',  // Allow all origins, or replace with the specific origin you want to allow
         methods: ['GET', 'POST']
     }
 });
